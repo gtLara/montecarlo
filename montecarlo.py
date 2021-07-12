@@ -7,6 +7,8 @@ plt.style.use("ggplot")
 
 # Rotinas visuais
 
+# TODO: Acertar eixo X e rotular eixos corretamente
+
 def see_pdf(samples, n_bins=100, title=None, pdf=True, infer=False,
             interval=False):
 
@@ -16,7 +18,7 @@ def see_pdf(samples, n_bins=100, title=None, pdf=True, infer=False,
     if not pdf:
 
         _, bins, _ = plt.hist(samples, bins=n_bins, density=True,
-                              cumulative=True, c="blue")
+                              cumulative=True, color="royalblue")
 
         if infer:
 
@@ -30,7 +32,8 @@ def see_pdf(samples, n_bins=100, title=None, pdf=True, infer=False,
 
     else:
 
-        _, bins, _ = plt.hist(samples, bins=n_bins, density=True, color="royalblue")
+        _, bins, _ = plt.hist(samples, bins=n_bins, density=True,
+                              color="royalblue")
 
         if infer:
 
@@ -97,4 +100,3 @@ r_std = numpy.std(r_samples)/np.sqrt(len(r_samples))
 M = 5000000 # numero de iteracoes
 
 rtx_samples = [get_Rx(r_mean, r_std) for n in range(10000)]
-
