@@ -43,8 +43,8 @@ def see_pdf(samples, n_bins=100, title=None, pdf=True, infer=False,
 
         if interval:
 
-            lower_bound = mu - 3*sigma
-            upper_bound = mu + 3*sigma
+            lower_bound = mu - 3 * sigma
+            upper_bound = mu + 3 * sigma
             plt.axvline(lower_bound, c="red", label="p=99.8%")
             plt.axvline(upper_bound, c="red")
 
@@ -68,7 +68,7 @@ def get_delta_Rd(lower_lim=0.001, upper_lim=0.003):
     delta_Rs = numpy.random.uniform(lower_lim, upper_lim) # uniforme distribuida entre 10 e 30 mOhms
     return delta_Rs
 
-#TODO: conferir delta_Rts
+#TODO: conferir delta_Rts (onde é centrada)
 
 def get_delta_Rts(lower_lim=9999.99725, upper_lim=10000.00275):
     delta_Rts = numpy.random.uniform(lower_lim, upper_lim) # uniforme distribuida entre 9997.25 e 10002.75 Ohms
@@ -78,8 +78,9 @@ def get_rc(lower_lim=0.999999, middle_value=1, upper_value=1.000001):
     rc = numpy.random.triangular(lower_lim, middle_value, upper_value, size=None)
     return rc
 
-def get_delta_Rtx(r_mean=None, r_std=None):
-    return 0
+def get_delta_Rtx(lower_lim=-0.0055, upper_lim=0.0055):
+    delta_Rts = numpy.random.uniform(lower_lim, upper_lim) # uniforme distribuida entre -0.0055 e 0.0055 Omhs
+    return  delta_Rts
 
 def get_r(mean=0, std=0):
     r = numpy.random.normal(mean, std)
