@@ -1,14 +1,52 @@
 import numpy
 import numpy as np
+import scipy.stats as stats
 import matplotlib.pyplot as plt
 
 plt.style.use("ggplot")
 
 # Rotinas visuais
 
-def see_dist(samples, title=None):
-    plt.hist(samples, bins=100, density=True)
+def see_pdf(samples, n_bins=100, title=None, pdf=True, infer=False,
+            interval=False):
+
+    mu = np.mean(samples)
+    sigma = np.std(samples)
+
+    if not pdf:
+
+        _, bins, _ = plt.hist(samples, bins=n_bins, density=True,
+                              cumulative=True, c="blue")
+
+        if infer:
+
+            y = ((1 / (np.sqrt(2 * np.pi) * sigma)) *
+                 np.exp(-0.5 * (1 / sigma * (bins - mu))**2))
+
+            y = y.cumsum()
+            y /= y[-1]
+
+            plt.plot(bins, y, 'k--', linewidth=1.5, label="Aproximação")
+
+    else:
+
+        _, bins, _ = plt.hist(samples, bins=n_bins, density=True, color="royalblue")
+
+        if infer:
+
+            fit = np.linspace(mu - 4*sigma, mu + 4*sigma, 100)
+            plt.plot(fit, stats.norm.pdf(fit, mu, sigma), "k--", linewidth=1.5,
+                     label="Aproximação")
+
+        if interval:
+
+            lower_bound = mu - 3*sigma
+            upper_bound = mu + 3*sigma
+            plt.axvline(lower_bound, c="red", label="p=99.8%")
+            plt.axvline(upper_bound, c="red")
+
     plt.title(title)
+    plt.legend()
     plt.show()
 
 # Rotinas numericas
@@ -59,3 +97,4 @@ r_std = numpy.std(r_samples)/np.sqrt(len(r_samples))
 M = 5000000 # numero de iteracoes
 
 rtx_samples = [get_Rx(r_mean, r_std) for n in range(10000)]
+
