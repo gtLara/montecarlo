@@ -7,8 +7,6 @@ plt.style.use("ggplot")
 
 # Rotinas visuais
 
-# TODO: Acertar eixo X e rotular eixos corretamente
-
 def see_pdf(samples, n_bins=100, title=None, pdf=True, infer=False,
             interval=False):
 
@@ -64,13 +62,11 @@ def get_Rs(mean=10000.053, std=0.0025):
     Rs = numpy.random.normal(mean, std) # gaussiana centrada em 10k com dp .0025
     return Rs
 
-def get_delta_Rd(lower_lim=0.001, upper_lim=0.003):
+def get_delta_Rd(lower_lim=0.001, upper_lim=0.03):
     delta_Rs = numpy.random.uniform(lower_lim, upper_lim) # uniforme distribuida entre 10 e 30 mOhms
     return delta_Rs
 
-#TODO: conferir delta_Rts (onde é centrada)
-
-def get_delta_Rts(lower_lim=9999.99725, upper_lim=10000.00275):
+def get_delta_Rts(lower_lim=-0.00275, upper_lim=0.00275):
     delta_Rts = numpy.random.uniform(lower_lim, upper_lim) # uniforme distribuida entre 9997.25 e 10002.75 Ohms
     return delta_Rts
 
@@ -100,4 +96,11 @@ r_std = numpy.std(r_samples)/np.sqrt(len(r_samples))
 
 M = 5000000 # numero de iteracoes
 
-rtx_samples = [get_Rx(r_mean, r_std) for n in range(10000)]
+rx_samples = np.array([get_Rx(r_mean, r_std) for n in range(M)])
+np.save("samples", rtx_samples)
+
+rx_expected = np.mean(rx_samples)
+rx_dp = np.std(rx_samples)/np.sqrt(M)
+
+print(rx_expected)
+print(rx_dp)
